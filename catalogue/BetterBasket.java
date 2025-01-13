@@ -12,6 +12,10 @@ import java.util.Collections;
 public class BetterBasket extends Basket implements Serializable
 {
   private static final long serialVersionUID = 1L;
+
+  private static void main(String args[]) {
+    System.out.println("Hello World");
+  }
   
 
   // You need to add code here
