@@ -29,6 +29,17 @@ public class CustomerController
     model.doCheck(pn);
   }
 
+  public void doCheckByName ( String name ) {
+    NameToNumber nameToNumber = new NameToNumber();
+    String pn = nameToNumber.getNumberByName(nameToNumber, name);
+    if (pn != null) {
+      model.doCheck(pn);
+    }
+    else {
+      model.doCheck("null");
+    }
+  }
+
   /**
    * Clear interaction from view
    */
