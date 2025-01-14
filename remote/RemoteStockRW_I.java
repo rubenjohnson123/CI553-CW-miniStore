@@ -26,5 +26,10 @@ public interface RemoteStockRW_I
           throws RemoteException, StockException;
   void    modifyStock(Product detail)
           throws RemoteException, StockException;
+  void    addNewStock(Product product)
+          throws RemoteException, StockException;
+
+  void    removeFromStock(Product product)
+          throws RemoteException, StockException;
 }
 

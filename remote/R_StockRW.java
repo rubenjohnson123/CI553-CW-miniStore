@@ -115,4 +115,16 @@ public class      R_StockRW
   {
     aStockRW.modifyStock( product );
   }
+
+  public synchronized void addNewStock ( Product product )
+              throws StockException
+  {
+    aStockRW.addNewStock( product );
+  }
+
+  public synchronized void removeFromStock ( Product product )
+              throws StockException
+  {
+    aStockRW.removeFromStock( product );
+  }
 }

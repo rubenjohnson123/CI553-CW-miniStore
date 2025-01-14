@@ -32,7 +32,7 @@ public class Product implements Serializable, Comparable<Product>
     thePrice       = aPrice;          // Price of product
     theQuantity    = aQuantity;       // Quantity involved
   }
-  
+
   public String getProductNum()  { return theProductNum; }
   public String getDescription() { return theDescription; }
   public double getPrice()       { return thePrice; }

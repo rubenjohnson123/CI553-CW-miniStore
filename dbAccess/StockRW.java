@@ -130,4 +130,62 @@ public class StockRW extends StockR implements StockReadWriter
       throw new StockException( "SQL modifyStock: " + e.getMessage() );
     }
   }
+
+  /**
+   * Adds new product to database.
+   * @param product Product details to add to stocklist
+   */
+  public synchronized void addNewStock( Product product )
+          throws StockException
+  {
+    DEBUG.trace( "DB StockRW: modifyStock(%s)",
+            product.getProductNum() );
+    try
+    {
+      if ( ! exists( product.getProductNum() ) )
+      {
+        getStatementObject().executeUpdate(
+                        "insert into ProductTable values" +
+                                "('" + product.getProductNum() + "', '"
+                                + product.getDescription() + "', '"
+                                + "Image" + "', "
+                                + product.getPrice() + ")"
+        );
+        getStatementObject().executeUpdate(
+                        "insert into StockTable values" +
+                                "( '" + product.getProductNum() + "', "
+                                + product.getQuantity() + ")"
+        );
+      }
+    } catch ( SQLException e )
+    {
+      throw new StockException( "SQL addToStock: " + e.getMessage() );
+    }
+  }
+
+  /**
+   * Removes product from database.
+   * @param product Product details to remove from stocklist
+   */
+  public synchronized void removeFromStock( Product product )
+          throws StockException
+  {
+    DEBUG.trace( "DB StockRW: modifyStock(%s)",
+            product.getProductNum() );
+    try
+    {
+      if ( exists( product.getProductNum() ) )
+      {
+        getStatementObject().executeUpdate(
+                "delete from ProductTable where cast(productNo as integer) =" + product.getProductNum()
+        );
+        getStatementObject().executeUpdate(
+                "delete from StockTable where cast(productNo as integer) =" + product.getProductNum()
+        );
+      }
+    } catch ( SQLException e )
+    {
+      throw new StockException( "SQL removeFromStock: " + e.getMessage() );
+    }
+  }
 }

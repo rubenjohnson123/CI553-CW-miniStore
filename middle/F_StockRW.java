@@ -114,4 +114,34 @@ public class F_StockRW extends F_StockR
     }
   }
 
+  public void addNewStock( Product product )
+          throws StockException
+  {
+    DEBUG.trace("F_StockRW:addNewStock()" );
+    try
+    {
+      if ( aR_StockRW == null ) connect();
+      aR_StockRW.addNewStock( product );
+    } catch ( RemoteException e )
+    {
+      aR_StockRW = null;
+      throw new StockException( "Net: " + e.getMessage() );
+    }
+  }
+
+  public void removeFromStock( Product product )
+          throws StockException
+  {
+    DEBUG.trace("F_StockRW:removeFromStock()" );
+    try
+    {
+      if ( aR_StockRW == null ) connect();
+      aR_StockRW.removeFromStock( product );
+    } catch ( RemoteException e )
+    {
+      aR_StockRW = null;
+      throw new StockException( "Net: " + e.getMessage() );
+    }
+  }
+
 }

@@ -10,7 +10,6 @@ import javax.swing.*;
  * The standalone BackDoor Client
  */
 
-
 public class BackDoorClient
 {
    public static void main (String args[])

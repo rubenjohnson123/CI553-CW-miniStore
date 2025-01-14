@@ -12,6 +12,9 @@ import clients.customer.CustomerView;
 import clients.packing.PackingController;
 import clients.packing.PackingModel;
 import clients.packing.PackingView;
+import clients.stockModify.stockModifyView;
+import clients.stockModify.stockModifyController;
+import clients.stockModify.stockModifyModel;
 import middle.LocalMiddleFactory;
 import middle.MiddleFactory;
 import javax.swing.*;
@@ -42,9 +45,9 @@ class Main
     MiddleFactory mlf = new LocalMiddleFactory();  // Direct access
     startCustomerGUI_MVC( mlf );
     startCashierGUI_MVC( mlf );
-    startCashierGUI_MVC( mlf ); // you can create multiple clients
     startPackingGUI_MVC( mlf );
     startBackDoorGUI_MVC( mlf );
+    startStockManageGUI_MVC(mlf);
   }
   
   /**
@@ -125,6 +128,23 @@ class Main
     BackDoorModel model      = new BackDoorModel(mlf);
     BackDoorView view        = new BackDoorView( window, mlf, pos.width, pos.height );
     BackDoorController cont  = new BackDoorController( model, view );
+    view.setController( cont );
+
+    model.addObserver( view );       // Add observer to the model
+    window.setVisible(true);         // Make window visible
+  }
+
+  public void startStockManageGUI_MVC(MiddleFactory mlf)
+  {
+    JFrame  window = new JFrame();
+
+    window.setTitle( "Stock Manage Client MVC");
+    window.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    Dimension pos = PosOnScrn.getPos();
+
+    stockModifyModel model      = new stockModifyModel(mlf);
+    stockModifyView view        = new stockModifyView( window, mlf, pos.width, pos.height );
+    stockModifyController cont  = new stockModifyController( model, view );
     view.setController( cont );
 
     model.addObserver( view );       // Add observer to the model
