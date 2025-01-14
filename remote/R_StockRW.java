@@ -127,4 +127,10 @@ public class      R_StockRW
   {
     aStockRW.removeFromStock( product );
   }
+
+  public synchronized void updateImage ( String pn, String filepath )
+              throws StockException
+  {
+    aStockRW.updateImage( pn, filepath );
+  }
 }

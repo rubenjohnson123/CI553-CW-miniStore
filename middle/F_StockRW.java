@@ -144,4 +144,18 @@ public class F_StockRW extends F_StockR
     }
   }
 
+  public void updateImage(String pn, String filepath)
+          throws StockException
+  {
+    DEBUG.trace("F_StockRW:updateImage()" );
+    try
+    {
+      if ( aR_StockRW == null ) connect();
+      aR_StockRW.updateImage( pn, filepath );
+    } catch ( RemoteException e )
+    {
+      aR_StockRW = null;
+      throw new StockException( "Net: " + e.getMessage() );
+    }
+  }
 }

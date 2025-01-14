@@ -8,6 +8,10 @@ import middle.MiddleFactory;
 import middle.StockException;
 import middle.StockReadWriter;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Observable;
 
 /**
@@ -116,6 +120,32 @@ public class stockModifyModel extends Observable
         setChanged(); notifyObservers(theAction);
     }
 
+    public void updateImage(String pnum, String filepath) {
+        String theAction = "";
+        pn  = pnum.trim();                    // Product no.
+        File file = null;
+        try
+        {                 //  & quantity
+            if ( theStock.exists( pn ) )              // Stock Exists?
+            {
+                file = new File(filepath);
+                String newpath = "images/pic"+pnum+".jpg";
+                Files.copy(file.toPath(), new File(newpath).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                theStock.updateImage(pn, newpath);
+            }
+            else {                                  //  F
+                theAction =                             //   Inform
+                        "Unknown product number " + pn;       //  product number
+            }
+        } catch( StockException e )
+        {
+            theAction = e.getMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        setChanged(); notifyObservers(theAction);
+    }
+
     /**
      * Get the Basket of products
      * @return basket
@@ -133,6 +163,7 @@ public class stockModifyModel extends Observable
     {
         return new Basket();
     }
+
 }
 
 

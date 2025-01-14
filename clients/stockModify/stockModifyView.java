@@ -4,8 +4,14 @@ import catalogue.Product;
 import middle.MiddleFactory;
 import middle.StockReadWriter;
 
+import java.io.*;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileFilter;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,6 +24,7 @@ public class stockModifyView implements Observer
     private static final String ADD  = "Add New Product";
     private static final String REMOVE    = "Remove Product";
     private static final String CLEAR   = "Clear";
+    private static final String UPDATE = "Update Product Image";
 
     private static final int H = 350;       // Height of window pixels
     private static final int W = 475;       // Width  of window pixels
@@ -33,8 +40,9 @@ public class stockModifyView implements Observer
     private final JButton     theBtAdd = new JButton( ADD );
     private final JButton     theBtRemove = new JButton( REMOVE );
     private final JButton     theBtClear = new JButton( CLEAR );
+    private final JButton     theBtImgUpdt = new JButton( UPDATE );
 
-
+    private JFileChooser fileChooser = new JFileChooser();
     private StockReadWriter theStock     = null;
     private stockModifyController cont= null;
 
@@ -87,13 +95,25 @@ public class stockModifyView implements Observer
         cp.add( theBtRemove );                          //  Add to canvas
 
         theBtClear.setBounds( 5, 50+60*2, 180, 40);
-        theBtClear.addActionListener(e -> {
-            theInputQnt.setText("");
-            theInputName.setText("");
-            theInputPrice.setText("");
-            theInputPNum.setText("");
+        theBtClear.addActionListener(
+                e -> {
+                theInputQnt.setText("");
+                theInputName.setText("");
+                theInputPrice.setText("");
+                theInputPNum.setText("");
         });
         cp.add(theBtClear);
+
+        theBtImgUpdt.setBounds(5, 50+60*3, 180, 40);
+        theBtImgUpdt.addActionListener(
+                e -> {
+                    try {
+                        cont.updateImage(theInputPNum.getText(), selectImage(theInputPNum.getText()));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+        cp.add(theBtImgUpdt);
 
         theAction.setBounds( 200, 25 , 870, 20 );       // Message area
         theAction.setText( "" );                        // Blank
@@ -145,4 +165,26 @@ public class stockModifyView implements Observer
         theInputName.requestFocus();
     }
 
+    public String selectImage(String Pnum) throws IOException {
+        FileFilter imageFilter = new FileNameExtensionFilter(
+                "Image files", "jpg");
+
+        //Attaching Filter to JFileChooser object
+        fileChooser.setFileFilter(imageFilter);
+        // calling the showOpenDialog method to display the save dialog on the frame
+        int r = fileChooser.showOpenDialog(null);
+
+        // if the user selects a file
+        File file = null;
+        String filepath = null;
+        if (r == JFileChooser.APPROVE_OPTION) {
+            // setting the label as the path of the selected file
+            theAction.setText("Image Added");
+            filepath = fileChooser.getSelectedFile().getAbsolutePath();
+        }
+        // if the user canceled the operation
+        else
+            theAction.setText("The user cancelled the operation");
+        return filepath;
+    }
 }

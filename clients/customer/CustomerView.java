@@ -127,7 +127,7 @@ public class CustomerView implements Observer
     CustomerModel model  = (CustomerModel) modelC;
     String        message = (String) arg;
     theAction.setText( message );
-    ImageIcon image = model.getPicture();  // Image of product
+    ImageIcon image = new ImageIcon(model.getPicture().getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
     if ( image == null )
     {
       thePicture.clear();                  // Clear picture

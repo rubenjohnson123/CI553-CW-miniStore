@@ -26,4 +26,6 @@ public class stockModifyController {
     {
         model.removeFromStock(product);
     }
+
+    public void updateImage(String Pnum, String filepath) { model.updateImage(Pnum, filepath); }
 }

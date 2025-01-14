@@ -39,4 +39,6 @@ public interface StockReadWriter extends StockReader
   void addNewStock(Product product) throws StockException;
 
   void removeFromStock(Product product) throws StockException;
+
+  void updateImage(String pn, String filepath) throws StockException;
 }
