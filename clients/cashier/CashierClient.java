@@ -11,7 +11,6 @@ import javax.swing.*;
  * The standalone Cashier Client.
  */
 
-
 public class CashierClient
 {
    public static void main (String args[])

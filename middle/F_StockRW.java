@@ -15,6 +15,7 @@ import remote.RemoteStockRW_I;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * Setup connection to the middle tier
@@ -157,5 +158,21 @@ public class F_StockRW extends F_StockR
       aR_StockRW = null;
       throw new StockException( "Net: " + e.getMessage() );
     }
+  }
+
+  public List<List<String>> listStock()
+        throws StockException
+  {
+    DEBUG.trace("F_StockRW:listStock()");
+    try
+    {
+      if ( aR_StockRW == null ) connect();
+      aR_StockRW.listStock();
+    } catch ( RemoteException e )
+    {
+      aR_StockRW = null;
+      throw new StockException( "Net: " + e.getMessage() );
+    }
+      return null;
   }
 }

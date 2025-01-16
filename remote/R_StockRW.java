@@ -6,6 +6,7 @@ import middle.StockException;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
+import java.util.List;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -132,5 +133,12 @@ public class      R_StockRW
               throws StockException
   {
     aStockRW.updateImage( pn, filepath );
+  }
+
+  public synchronized List<List<String>> listStock ()
+              throws StockException
+  {
+    aStockRW.listStock();
+    return null;
   }
 }

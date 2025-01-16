@@ -12,7 +12,10 @@ import debug.DEBUG;
 import middle.StockException;
 import middle.StockReadWriter;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 // There can only be 1 ResultSet opened per statement
 // so no simultaneous use of the statement object
@@ -205,5 +208,37 @@ public class StockRW extends StockR implements StockReadWriter
     {
       throw new StockException( "SQL updateImage: " + e.getMessage() );
     }
+  }
+
+  public synchronized List<List<String>> listStock()
+            throws StockException
+  {
+    List<List<String>> stockList = new ArrayList<List<String>>();
+
+    DEBUG.trace( "DB StockRW: listStock(%s)");
+    try
+    {
+      ResultSet rs = getStatementObject().executeQuery(
+              "select ProductTable.productNo, ProductTable.description, StockTable.stockLevel " +
+                  "from ProductTable " +
+                  "join StockTable " +
+                  "on ProductTable.productNo = StockTable.productNo " +
+                  "order by ProductTable.productNo"
+      );
+      while (rs.next())
+      {
+        List<String> stockRecord = new ArrayList<String>();
+        stockRecord.add(rs.getString("productNo"));
+        stockRecord.add(rs.getString("description"));
+        stockRecord.add(String.valueOf(rs.getInt("stockLevel")));
+
+        stockList.add(stockRecord);
+      }
+
+    } catch ( SQLException e )
+    {
+      throw new StockException( "SQL listStock" + e.getMessage() );
+    }
+    return stockList;
   }
 }

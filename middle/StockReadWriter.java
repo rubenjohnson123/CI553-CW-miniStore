@@ -2,6 +2,8 @@ package middle;
 
 import catalogue.Product;
 
+import java.util.List;
+
 /**
   * Interface for read/write access to the stock list.
   * @author  Mike Smith University of Brighton
@@ -41,4 +43,6 @@ public interface StockReadWriter extends StockReader
   void removeFromStock(Product product) throws StockException;
 
   void updateImage(String pn, String filepath) throws StockException;
+
+  List<List<String>> listStock() throws StockException;
 }

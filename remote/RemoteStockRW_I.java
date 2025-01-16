@@ -10,6 +10,7 @@ import middle.StockException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  * Defines the RMI interface for read/write access to the stock object.
@@ -33,6 +34,9 @@ public interface RemoteStockRW_I
           throws RemoteException, StockException;
 
   void updateImage(String pn, String filepath)
+          throws RemoteException, StockException;
+
+  List<List<String>> listStock()
           throws RemoteException, StockException;
 }
 

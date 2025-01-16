@@ -47,6 +47,7 @@ public class BackDoorController
     model.doClear();
   }
 
-  
+  public void doList() { model.doList(); }
+
 }
 

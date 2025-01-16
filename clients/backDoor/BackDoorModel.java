@@ -8,6 +8,7 @@ import middle.MiddleFactory;
 import middle.StockException;
 import middle.StockReadWriter;
 
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -17,6 +18,7 @@ public class BackDoorModel extends Observable
 {
   private Basket      theBasket  = null;            // Bought items
   private String      pn = "";                      // Product being processed
+  private String      stockDisplay = "";
 
   private StockReadWriter theStock     = null;
 
@@ -46,6 +48,8 @@ public class BackDoorModel extends Observable
   {
     return theBasket;
   }
+
+  public String getStockDisplay() { return stockDisplay; }
 
   /**
    * Check The current stock level
@@ -124,6 +128,32 @@ public class BackDoorModel extends Observable
           "Unknown product number " + pn;       //  product number
       } 
     } catch( StockException e )
+    {
+      theAction = e.getMessage();
+    }
+    setChanged(); notifyObservers(theAction);
+  }
+
+  public void doList()  {
+    String theAction = "";
+    try
+    {
+      List<List<String>> stockList = theStock.listStock();
+
+      StringBuilder sb = new StringBuilder(1024);
+
+      // Add the header
+      sb.append(String.format("%-10s %-20s %-4s%n", "ProductNo", "Description", "Quantity"));
+      sb.append("-------------------------------------------------------------\n");
+
+      for (List<String> item : stockList) {
+        sb.append(String.format("%-10s %-20s %-4s%n", item.get(0), item.get(1), item.get(2)));
+      }
+
+      theAction = "Stock Displayed";
+      stockDisplay = sb.toString();
+
+    } catch ( StockException e )
     {
       theAction = e.getMessage();
     }
